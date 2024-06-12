@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./stile.css">
+    <link rel="stylesheet" href="./ob.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="./MyPlugin.js"></script>
+    <link rel="icon" href="image/car-no-bg-preview (carve.photos).ico" type="image/x-icon">
+    <title>Обработка отчетов</title>
+</head>
+<body>
+ <header>
+    <nav class="navbar navbar-expand-lg py-3 navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="./index.html">
+                <img src="./image/car-no-bg-preview (carve.photos).ico" width="78" height="48" class="align-middle me-1 " alt="My Website">
+                Автомобиль</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNavbar2" aria-controls="myNavbar2" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="lc-block collapse navbar-collapse" id="myNavbar2">
+                <div lc-helper="shortcode" class="live-shortcode ms-auto">
+                    <ul id="menu-menu-1" class="navbar-nav">
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item nav-item-32739"><a href="./info.html" class="nav-link ">Информация о компании</a></li>
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item nav-item-32739"><a href="./index.html" class="nav-link ">Заказы</a></li>
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item nav-item-32739"><a href="./obribitca.html" class="nav-link ">Оброботка заказа</a></li>
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home nav-item nav-item-32738"><a href="./reports.html" class="nav-link ">Отчеты</a></li>
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home nav-item nav-item-32738"><a href="./check.html" class="nav-link ">Отчеты на проверке</a></li>
+                    </ul> 
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container">
+  <h1>Список заявок</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Название заявки</th>
+        <th>Текст заявки</th>
+        <th>Файл</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>Заказы</td>
+          <td id="orderText1"></td>
+          <td id="orderFile1"></td>
+          <td>
+            <button class="btn btn-primary btn-sm" data-action="approve">Одобрить</button>
+            <button class="btn btn-danger btn-sm" data-action="reject">Отклонить</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Прием на работу</td>
+          <td id="orderText2"></td>
+          <td id="orderFile2"></td>
+          <td>
+            <button class="btn btn-primary btn-sm" data-action="approve">Одобрить</button>
+            <button class="btn btn-danger btn-sm" data-action="reject">Отклонить</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Отклонить заявку</td>
+          <td id="orderText3"></td>
+          <td id="orderFile3"></td>
+          <td>
+            <button class="btn btn-primary btn-sm" data-action="approve">Одобрить</button>
+            <button class="btn btn-danger btn-sm" data-action="reject">Отклонить</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Договор</td>
+          <td id="orderText4"></td>
+          <td id="orderFile4"></td>
+          <td>
+            <button class="btn btn-primary btn-sm" data-action="approve">Одобрить</button>
+            <button class="btn btn-danger btn-sm" data-action="reject">Отклонить</button>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Модальное окно для отклонения заявки -->
+<div class="modal" id="rejectModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Заявка отклонена</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Заявка была отклонена</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function handleAction(event) {
+    var action = event.target.getAttribute('data-action');
+    var textId = event.target.parentNode.previousElementSibling.previousElementSibling.id;
+    var fileId = event.target.parentNode.previousElementSibling.id;
+
+    if (action === 'approve') {
+      alert('Заявка одобрена');
+      var row = event.target.parentNode.parentNode;
+      row.children[3].innerHTML = '<button class="btn btn-primary btn-sm" disabled>Одобрено</button>';
+    } else if (action === 'reject') {
+      alert('Заявка отклонена');
+      var row = event.target.parentNode.parentNode;
+      row.children[3].innerHTML = '<button class="btn btn-danger btn-sm" disabled>Отклонено</button>';
+      document.getElementById(textId).innerText = ''; // Очистить текст заявки
+      document.getElementById(fileId).innerText = ''; // Очистить имя файла
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+      var buttons = document.querySelectorAll('button[data-action]');
+      buttons.forEach(function (button) {
+          button.addEventListener('click', handleAction);
+      });
+
+      loadOrderText('orderText1');
+      loadOrderText('orderText2');
+      loadOrderText('orderText3');
+      loadOrderText('orderText4');
+
+      loadOrderFile('orderFile1');
+      loadOrderFile('orderFile2');
+      loadOrderFile('orderFile3');
+      loadOrderFile('orderFile4');
+  });
+
+  function loadOrderText(textId) {
+      var text = localStorage.getItem(textId);
+      if (text) {
+          document.getElementById(textId).innerHTML = text;
+      }
+  }
+
+  function loadOrderFile(fileId) {
+      var file = localStorage.getItem(fileId);
+      if (file) {
+          var fileName = file.split('/').pop(); // Извлечение только имени файла
+          if (fileName.length > 5) {
+            fileName = fileName.substring(0, 5) + '...';
+          }
+          var fileLink = '<a href="' + file + '" download="' + fileName + '">' + fileName + '</a>';
+          document.getElementById(fileId).innerHTML = fileLink;
+      }
+  }
+</script>
+<footer class="footer bg-dark text-light py-1">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h5>О нас</h5>
+          <p>Мы компания, которая предоставляет высококачественные услуги. Наша миссия - сделать мир лучше.</p>
+        </div>
+        <div class="col-md-4">
+          <h5>Контакты</h5>
+          <ul class="list-unstyled">
+            <li><i class="fas fa-map-marker-alt"></i> Москва, ул. Пушкина, д. 10</li>
+            <li><i class="fas fa-phone"></i> +7 (495) 123-45-67</li>
+            <li><i class="fas fa-envelope"></i> info@example.com</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5>Подписка</h5>
+          <p>Подпишитесь на нашу рассылку, чтобы получать последние новости и предложения.</p>
+          <form>
+            <div class="input-group mb-3">
+              <input type="email" class="form-control" placeholder="Ваш email" aria-label="Email" aria-describedby="button-addon2">
+              <button class="btn btn-primary" type="button" id="button-addon2">Подписаться</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-6">
+          <p>&copy; 2023 Автомобиль. Все права защищены.</p>
+        </div>
+        <div class="col-md-6 text-md-right">
+          <a href="#" class="text-light mr-3"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="text-light mr-3"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-light mr-3"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

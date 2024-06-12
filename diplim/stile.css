@@ -1,0 +1,32 @@
+table {
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
+}
+
+input[type="number"] {
+    width: 50px;
+}
+
+.quantity, .total-price {
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+}
+
+.grand-total {
+    font-weight: bold;
+}
+.text-center {
+    text-align: center;
+  }
+
+
+  
